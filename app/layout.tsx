@@ -8,9 +8,10 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "Filamu2.0",
+  title: "Filamu 2.0",
   description: "Modern streaming platform by ihope.dev",
 };
 
@@ -23,15 +24,17 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body>
-          <header>
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          <main>{children}</main>
+          <Providers>
+            <header>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </header>
+            <main>{children}</main>
+          </Providers>
         </body>
       </html>
     </ClerkProvider>

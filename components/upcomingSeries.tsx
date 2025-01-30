@@ -3,6 +3,7 @@
 import React from "react";
 import SeriesCard from "./seriesCard";
 import { useUpcomingSeries } from "@/hooks";
+import style from "../app/custom.module.css";
 
 const UpcomingSeries = () => {
   const { data, isLoading, error } = useUpcomingSeries();
@@ -25,18 +26,17 @@ const UpcomingSeries = () => {
   };
 
   return (
-    <div>
+    <div className="m-8">
       <h1 className="mb-2 text-xl font-black lg:text-2xl">
         Coming soon <span className="text-md font-light">in TV Shows</span>
       </h1>
-      <div className="flex">
+      <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
         {filteredSeries?.slice(0, 10).map((show) => (
           <div
             key={show.id}
             className="relative flex flex-col items-center p-2"
           >
-            {/* <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-red-800 to-transparent"></div> */}
-
+            
             <SeriesCard poster_path={show.poster_path} series_id={show.id} />
             <span className="text-md absolute bottom-5 cursor-pointer rounded-md bg-black/50 p-1 font-semibold text-white shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
               {date(show.first_air_date)}

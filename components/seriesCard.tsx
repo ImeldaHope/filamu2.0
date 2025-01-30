@@ -10,13 +10,15 @@ const SeriesCard = ({ poster_path, series_id }: { poster_path: string, series_id
    };
   
   return (
-    <div className="" onClick={() => handleClick(series_id)}>
+    <div
+      className="m-5 h-32 w-20 lg:h-60 lg:w-40"
+      onClick={() => handleClick(series_id)}
+    >
       <Image
         src={`https://image.tmdb.org/t/p/w500${poster_path}`}
         alt="some show"
-        width={160}
-        height={240}
-        className="rounded-md cursor-pointer"
+        fill
+        className="cursor-pointer rounded-md"
       />
     </div>
   );

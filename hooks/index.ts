@@ -1,4 +1,4 @@
-import { SeriesProps, MovieResponse, SeriesResponse, GenresResponse, GenreProps } from "@/types";
+import { SeriesProps, MovieResponse, SeriesResponse, GenresResponse, GenreProps, MovieProps, CastCrewResponse, DetailedMovieResponse } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { fetchApi } from "@/utils";
 
@@ -78,8 +78,18 @@ export const useSeriesGenreDetails = (id: number) => {
   });
 };
 
-export const useMovieDetails =  (movie: MovieResponse) => {
-  return movie;
+export const useMovieDetails =  (id:number) => {
+  return useQuery<DetailedMovieResponse, Error>({
+    queryKey: ["movie_details", id],
+    queryFn: () => fetchApi<DetailedMovieResponse>(`movie/${id}`)
+  })
+};
+
+export const useMovieCastCrew = (id:number) => {
+  return useQuery<CastCrewResponse, Error>({
+    queryKey: ["cast_crew", id],
+    queryFn: () => fetchApi<CastCrewResponse>(`movie/${id}/credits`),
+  });
 };
 
 export const useSeriesDetails = async (series: SeriesProps) => {

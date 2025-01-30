@@ -3,6 +3,7 @@
 import React from "react";
 import MovieCard from "./movieCard";
 import { useUpcomingMovies } from "@/hooks";
+import style from "../app/custom.module.css";
 
 const UpcomingMovies = () => {
   const { data, isLoading, error } = useUpcomingMovies();
@@ -27,11 +28,11 @@ const UpcomingMovies = () => {
   };
 
   return (
-    <div>
+    <div className="m-8">
       <h1 className="mb-2 text-xl font-black lg:text-2xl">
-        Coming soon  <span className="text-md font-light">in Movies</span>
+        Coming soon <span className="text-md font-light">in Movies</span>
       </h1>
-      <div className="flex">
+      <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
         {filteredMovies?.slice(0, 10).map((movie) => (
           <div
             key={movie.id}
@@ -39,7 +40,7 @@ const UpcomingMovies = () => {
           >
             {/* <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-red-800 to-transparent"></div> */}
 
-            <MovieCard poster_path={movie.poster_path} />
+            <MovieCard poster_path={movie.poster_path} movie_id={movie.id} />
             <span className="text-md absolute bottom-5 cursor-pointer rounded-md bg-black/50 p-1 font-semibold text-white shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
               {date(movie.release_date)}
             </span>

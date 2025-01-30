@@ -6,23 +6,25 @@ import { useMovieGenreDetails } from "@/hooks";
 
 const GenreBtn = ({ genre }: { genre: GenreProps }) => {
   const { data, isLoading, error } = useMovieGenreDetails(genre.id);
- 
+
   return (
-    <div className="w-40 xl:w-48 relative p-5 rounded-lg bg-[#303030] m-5 ">
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent pointer-events-none rounded-lg"></div>
+    <div className="relative w-40 rounded-lg bg-[#303030] p-5 xl:w-48">
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 rounded-lg bg-gradient-to-t from-black to-transparent"></div>
       <div className="inline-grid grid-cols-2 gap-2">
         {data?.results.slice(0, 4).map((movie) => (
-          <Image
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            height={100}
-            width={70}
-            alt=""
-            className="rounded-md"
-            key={movie.id}
-          />
+          <div>
+            <Image
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              height={100}
+              width={70}
+              alt=""
+              className="rounded-md"
+              key={movie.id}
+            />
+          </div>
         ))}
       </div>
-      <button className="absolute bottom-0 left-0 w-full z-10 flex justify-between items-center pb-2 px-5">
+      <button className="absolute bottom-0 left-0 z-10 flex w-full items-center justify-between px-5 pb-2">
         <h2>{genre.name}</h2>
         <ArrowRightIcon />
       </button>

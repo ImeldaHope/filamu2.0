@@ -10,12 +10,11 @@ const MovieCard = ({ poster_path, movie_id }: { poster_path: string, movie_id:nu
    };
   
   return (
-    <div className="" onClick={() => handleClick(movie_id)}>
+    <div className="w-20 h-32 lg:h-60 lg:w-40 m-5" onClick={() => handleClick(movie_id)}>
       <Image
         src={`https://image.tmdb.org/t/p/w500${poster_path}`}
         alt="some show"
-        width={160}
-        height={240}
+        fill
         className="rounded-md cursor-pointer"
       />
     </div>

@@ -39,7 +39,7 @@ const UpcomingMovies = () => {
           >
             {/* <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-red-800 to-transparent"></div> */}
 
-            <MovieCard poster_path={movie.poster_path} />
+            <MovieCard poster_path={movie.poster_path} movie_id={movie.id}/>
             <span className="text-md absolute bottom-5 cursor-pointer rounded-md bg-black/50 p-1 font-semibold text-white shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
               {date(movie.release_date)}
             </span>

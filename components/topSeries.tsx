@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import MovieCard from "./movieCard";
+import SeriesCard from "./seriesCard";
 import { usePopularSeries } from "@/hooks";
 
 const TopSeries = () => {
@@ -14,7 +14,10 @@ const TopSeries = () => {
         {data?.results.slice(0, 10).map((series, index) => (
           <div key={series.id} className="relative flex items-center p-2">
             <div className="z-10">
-              <MovieCard poster_path={series.poster_path} />
+              <SeriesCard
+                poster_path={series.poster_path}
+                series_id={series.id}
+              />
             </div>
             <h1 className="absolute -left-10 top-1/2 -translate-y-1/2 text-11xl">
               {index + 1}

@@ -12,11 +12,11 @@ export default function Home() {
     <>
       {/* <Hero />       */}
       <GenreCard type="movie" />
-      <NewRelease />
+      <NewRelease type="movie" />
       <TopMovies />
       <UpcomingMovies />
       <GenreCard type="series" />
-      <NewReleaseSeries />
+      <NewRelease type="series" />
       <TopSeries />
       <UpcomingSeries />
     </>

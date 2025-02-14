@@ -21,7 +21,7 @@ const GenreBtn = ({
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 rounded-lg bg-gradient-to-t from-black to-transparent"></div>
       <div className="inline-grid grid-cols-2 gap-2">
         {data?.results.slice(0, 4).map((media) => (
-          <div>
+          <div key={media.id}>
             <Image
               src={`https://image.tmdb.org/t/p/w500${media.poster_path}`}
               height={100}

@@ -36,7 +36,7 @@ export interface SeriesProps {
   popularity: number;
   poster_path: string;
   first_air_date: string;
-  vote_average: number;
+  vote_average: number;  
 }
 
 export interface SeriesResponse {

@@ -41,17 +41,23 @@ export const Rating = ({ rate }: { rate: any }) => {
   );
 };
 
+
+
 const MovieDetail = ({ movieId }: { movieId: number }) => {
   const { data: movie, isLoading: loading, error } = useMovieDetails(movieId);
-  const { data: castCrew } = useMovieCastCrew(movieId);
+  const { data: castCrew, isLoading } = useMovieCastCrew(movieId);
 
   const router = useRouter();
 
   if (!movie) {
+    return <>Loading movie</>
+  }
+
+  if (error) {
     return <p>Movie data not available.</p>;
   }
 
-  if (loading) {
+  if (isLoading) {
     return <p>Crew loading available</p>;
   }
   const date = new Date(movie.release_date).getFullYear();
@@ -150,7 +156,7 @@ const MovieDetail = ({ movieId }: { movieId: number }) => {
       <div className="relative">
         <div className="relative h-[60vh] min-h-[400px] w-full">
           <Image
-            src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
             alt={movie.title}
             fill
             className="object-cover"

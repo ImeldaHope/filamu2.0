@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import SeriesCard from "./seriesCard";
+import MediaCard from "./mediaCard";
 import { useUpcomingSeries } from "@/hooks";
 import style from "../app/custom.module.css";
 
@@ -37,7 +37,7 @@ const UpcomingSeries = () => {
             className="relative flex flex-col items-center p-2"
           >
             
-            <SeriesCard poster_path={show.poster_path} series_id={show.id} />
+            <MediaCard poster_path={show.poster_path} series_id={show.id} />
             <span className="text-md absolute bottom-5 cursor-pointer rounded-md bg-black/50 p-1 font-semibold text-white shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
               {date(show.first_air_date)}
             </span>

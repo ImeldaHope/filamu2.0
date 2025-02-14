@@ -17,7 +17,7 @@ const TopTen = ({ type }: { type: "movie" | "series" }) => {
         </span>{" "}
         this Week
       </h1>
-      <div className={`flex gap-16 overflow-x-scroll ${style.scrollbar_hide}`}>
+      <div className={`flex gap-16 overflow-x-scroll ${style.scrollbar_hide} overflow-y-hidden`}>
         {data?.results.slice(0, 10).map((media, index) => (
           <div key={media.id} className="relative m-3 flex items-center p-2">
             <div className="z-10">

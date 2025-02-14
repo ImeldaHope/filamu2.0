@@ -18,7 +18,8 @@ export interface MovieProps {
   overview: string;
   poster_path: string;
   release_date: string;
-  vote_average: number;  
+  vote_average: number;
+  type: "movie";
 }
 
 export interface MovieResponse {
@@ -37,6 +38,7 @@ export interface SeriesProps {
   poster_path: string;
   first_air_date: string;
   vote_average: number;
+  type: "series";
 }
 
 export interface SeriesResponse {

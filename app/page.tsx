@@ -1,11 +1,9 @@
 import GenreCard from "@/components/genreCard";
 import Hero from "@/components/hero";
 import NewRelease from "@/components/newRelease";
-import NewReleaseSeries from "@/components/newReleaseSeries";
 import TopTen from "@/components/topTen";
-import TopSeries from "@/components/topSeries";
-import UpcomingMovies from "@/components/upcomingMovies";
-import UpcomingSeries from "@/components/upcomingSeries";
+import Upcoming from "@/components/upcoming";
+
 
 export default function Home() {
   return (
@@ -14,11 +12,11 @@ export default function Home() {
       <GenreCard type="movie" />
       <NewRelease type="movie" />
       <TopTen type="movie" />
-      <UpcomingMovies />
+      <Upcoming type="movie" />
       <GenreCard type="series" />
       <NewRelease type="series" />
       <TopTen type="series" />
-      <UpcomingSeries />
+      <Upcoming type="series" />
     </>
   );
 }

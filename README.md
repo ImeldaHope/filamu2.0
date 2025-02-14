@@ -31,7 +31,7 @@ Ensure you have the following installed:
 ### Clone the Repository
 
 ```bash
-git clone [https://github.com/ImeldaHope/filamu2.0.git]
+git clone https://github.com/ImeldaHope/filamu2.0.git
 cd Filamu2.0
 ```
 

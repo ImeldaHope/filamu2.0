@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import MovieCard from "./movieCard";
+import MediaCard from "./mediaCard";
 import { usePopularMovies } from "@/hooks";
 import style from "../app/custom.module.css";
 
@@ -16,7 +16,7 @@ const TopMovies = () => {
         {data?.results.slice(0, 10).map((movie, index) => (
           <div key={movie.id} className="relative m-3 flex items-center p-2">
             <div className="z-10">
-              <MovieCard poster_path={movie.poster_path} movie_id={movie.id} />
+              <MediaCard poster_path={movie.poster_path} movie_id={movie.id} />
             </div>
             <h1 className="absolute -left-16 top-1/2 -translate-y-1/2 text-11xl">
               {index + 1}

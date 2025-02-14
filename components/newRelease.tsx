@@ -3,7 +3,7 @@
 import React from "react";
 import { useNewReleases } from "@/hooks";
 import Image from "next/image";
-import MovieCard from "./movieCard";
+import MediaCard from "./mediaCard";
 import style from "../app/custom.module.css";
 const NewRelease = () => {
   const { data, isLoading, error } = useNewReleases();
@@ -20,7 +20,7 @@ const NewRelease = () => {
       <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
         {data?.results.slice(0, 10).map((movie) => (
           <div key={movie.id} className="relative">
-            <MovieCard poster_path={movie.poster_path} movie_id={movie.id} />
+            <MediaCard poster_path={movie.poster_path} movie_id={movie.id} />
             <p className="absolute right-0 top-0 -translate-x-1/4 transform rounded-b-lg bg-accent p-2 text-white lg:p-3">
               {Math.round(movie.vote_average)}
             </p>

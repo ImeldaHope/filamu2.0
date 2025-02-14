@@ -4,7 +4,7 @@ import React from "react";
 import { useNewReleasesTv } from "@/hooks";
 import Image from "next/image";
 import style from "../app/custom.module.css";
-import SeriesCard from "./seriesCard";
+import MediaCard from "./mediaCard";
 
 const NewReleaseSeries = () => {
   const { data, isLoading, error } = useNewReleasesTv();
@@ -21,7 +21,7 @@ const NewReleaseSeries = () => {
       <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
         {data?.results.slice(0, 10).map((show) => (
           <div key={show.id} className="relative">
-            <SeriesCard poster_path={show.poster_path} series_id={show.id} />
+            <MediaCard poster_path={show.poster_path} series_id={show.id} />
             <p className="absolute right-0 top-0 -translate-x-1/4 transform rounded-b-lg bg-accent p-2 text-white lg:p-3">
               {Math.round(show.vote_average)}
             </p>

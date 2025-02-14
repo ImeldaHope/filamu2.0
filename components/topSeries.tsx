@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import SeriesCard from "./seriesCard";
+import MediaCard from "./mediaCard";
 import { usePopularSeries } from "@/hooks";
 import style from "../app/custom.module.css";
 
@@ -15,7 +15,7 @@ const TopSeries = () => {
         {data?.results.slice(0, 10).map((series, index) => (
           <div key={series.id} className="relative m-3 flex items-center p-2">
             <div className="z-10">
-              <SeriesCard
+              <MediaCard
                 poster_path={series.poster_path}
                 series_id={series.id}
               />

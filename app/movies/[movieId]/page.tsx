@@ -7,7 +7,6 @@ const Movie = () => {
     const params = useParams();
     const movieId = params.movieId ? Number(params.movieId) : null;
 
-    console.log(movieId);
   return (
     <div>
       <MovieDetail movieId={movieId as number} />

@@ -8,7 +8,7 @@ import Upcoming from "@/components/upcoming";
 export default function Home() {
   return (
     <>
-      {/* <Hero />       */}
+      <Hero />      
       <GenreCard type="movie" />
       <NewRelease type="movie" />
       <TopTen type="movie" />

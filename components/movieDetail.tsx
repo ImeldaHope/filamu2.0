@@ -16,10 +16,10 @@ import {
 } from "@radix-ui/react-icons";
 import { Crew } from "@/types";
 
-export const Rating = ({ rate }: { rate: any }) => {
-  const rating = parseFloat(rate);
-  const filledStars = Math.floor(rating);
-  const halfStar = rating % 1 !== 0;
+export const Rating = ({ rate }: { rate: number }) => {
+  // const rating = parseFloat(rate);
+  const filledStars = Math.floor(rate);
+  const halfStar = rate % 1 !== 0;
   const totalStars = 5;
 
   return (
@@ -35,7 +35,7 @@ export const Rating = ({ rate }: { rate: any }) => {
         }
         return <StarIcon key={index} className="mr-1 text-gray-400" />;
       })}
-      <span className="ml-2">{rating}</span>
+      <span className="ml-2">{rate}</span>
     </div>
   );
 };

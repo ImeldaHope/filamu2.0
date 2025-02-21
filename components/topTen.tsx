@@ -5,9 +5,18 @@ import { usePopularMovies, usePopularSeries } from "@/hooks";
 import style from "../app/custom.module.css";
 
 const TopTen = ({ type }: { type: "movie" | "series" }) => {
-  const { data, isLoading, error } =
-    type === "movie" ? usePopularMovies() : usePopularSeries();
+  const popularMovies = usePopularMovies()
+  const popularSeries = usePopularSeries()
 
+  const { data, isLoading, error } =
+    type === "movie" ? popularMovies : popularSeries;
+
+  if (isLoading) {
+    return <div>Loading ...</div>
+  }
+
+  if (error) return <div>Error</div>
+  
   return (
     <div className="m-8">
       <h1 className="mb-2 text-xl font-black lg:text-2xl">

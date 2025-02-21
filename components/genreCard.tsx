@@ -4,8 +4,15 @@ import GenreBtn from "./genreBtn";
 import { useMovieGenre, useSeriesGenre } from "@/hooks";
 import style from "../app/custom.module.css";
 const GenreCard = ({ type }: { type: "movie" | "series" }) => {
+
+  const movieGenre = useMovieGenre();
+  const seriesGenre = useSeriesGenre();
+
   const { data, isLoading, error } =
-    type === "movie" ? useMovieGenre() : useSeriesGenre();
+    type === "movie" ? movieGenre : seriesGenre;
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error</div>;
 
   return (
     <div className="m-8">

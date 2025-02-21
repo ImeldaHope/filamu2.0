@@ -12,13 +12,12 @@ import {
   CountdownTimerIcon,
   DashboardIcon,
   PilcrowIcon,
-  ArrowLeftIcon,
   ThickArrowLeftIcon,
 } from "@radix-ui/react-icons";
 import { Crew } from "@/types";
 
 export const Rating = ({ rate }: { rate: any }) => {
-  let rating = parseFloat(rate);
+  const rating = parseFloat(rate);
   const filledStars = Math.floor(rating);
   const halfStar = rating % 1 !== 0;
   const totalStars = 5;
@@ -60,9 +59,14 @@ const MovieDetail = ({ movieId }: { movieId: number }) => {
   if (isLoading) {
     return <p>Crew loading available</p>;
   }
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   const date = new Date(movie.release_date).getFullYear();
 
-  let reviews = [
+  const reviews = [
     {
       name: "Junior",
       location: "Ke",

@@ -7,6 +7,15 @@ import style from "../app/custom.module.css";
 
 const UpcomingSeries = () => {
   const { data, isLoading, error } = useUpcomingSeries();
+
+  if (isLoading) {
+    return <div>Loading ...</div>
+  }
+
+  if (error) {
+    return <div>Error</div>
+  }
+
   const sortedSeries = data?.results.sort((a, b) => {
     const dateA = new Date(a.first_air_date as string);
     const dateB = new Date(b.first_air_date as string);

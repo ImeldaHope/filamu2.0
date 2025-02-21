@@ -11,10 +11,15 @@ const GenreBtn = ({
   genre: GenreProps;
   type: "movie" | "series";
 }) => {
+  const movieGenre = useMovieGenreDetails(genre.id);
+  const seriesGenre = useSeriesGenreDetails(genre.id);
+
   const { data, isLoading, error } =
-    type === "movie"
-      ? useMovieGenreDetails(genre.id)
-      : useSeriesGenreDetails(genre.id);
+    type === "movie" ? movieGenre : seriesGenre;
+  
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error</div>;
+
 
   return (
     <div className="relative w-40 rounded-lg bg-[#303030] p-5 xl:w-48">

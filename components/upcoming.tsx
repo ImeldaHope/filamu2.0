@@ -7,8 +7,19 @@ import style from "../app/custom.module.css";
 import { MovieProps, SeriesProps } from "@/types";
 
 const Upcoming = ({ type }: { type: "movie" | "series" }) => {
+  const upcomingMovies = useUpcomingMovies()
+  const upcomingShows = useUpcomingSeries()
+
   const { data, isLoading, error } =
-    type === "movie" ? useUpcomingMovies() : useUpcomingSeries();
+    type === "movie" ? upcomingMovies : upcomingShows;
+  
+   if (isLoading) {
+     return <div>Loading ...</div>;
+   }
+
+   if (error) {
+     return <div>Error</div>;
+   }
 
   const sortedMedia = data?.results.sort((a, b) => {
     const dateA = new Date(

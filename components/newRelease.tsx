@@ -5,10 +5,16 @@ import { useNewReleases, useNewReleasesTv } from "@/hooks";
 import MediaCard from "./mediaCard";
 import style from "../app/custom.module.css";
 const NewRelease = ({ type }: { type: "movie" | "series" }) => {
-  const { data, isLoading, error } = type === "movie" ? useNewReleases() : useNewReleasesTv();
+  const movieReleases = useNewReleases();
+  const showsReleases = useNewReleasesTv()
+  const { data, isLoading, error } = type === "movie" ? movieReleases : showsReleases;
 
   if (error) {
     return <div>No poster available</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading ...</div>
   }
 
   return (

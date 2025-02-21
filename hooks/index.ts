@@ -1,94 +1,125 @@
 import { SeriesProps, MovieResponse, SeriesResponse, GenresResponse, GenreProps, MovieProps, CastCrewResponse, DetailedMovieResponse } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { fetchApi } from "@/utils";
 
 export const useNewReleases = () => {
   return useQuery<MovieResponse, Error>({
     queryKey: ["new_releases"],
-    queryFn: () => fetchApi<MovieResponse>("movie/now_playing"),
+    queryFn:async () => {
+      const response = await fetch("/api?endpoint=movie/now_playing");
+      return response.json();
+    },    
   });
 };
 
 export const useNewReleasesTv = () => {
   return useQuery<SeriesResponse, Error>({
     queryKey: ["new_releases_tv"],
-    queryFn: () => fetchApi<SeriesResponse>("tv/on_the_air"),
+    queryFn: async () => {      
+      const response = await fetch("/api?endpoint=tv/on_the_air");
+      return response.json();
+    },
   });
 };
 
 export const usePopularMovies = () => {
   return useQuery<MovieResponse, Error>({
     queryKey: ["popular_movies"],
-    queryFn: () => fetchApi<MovieResponse>("trending/movie/week"),
+    queryFn: async () => {      
+      const response = await fetch( "/api?endpoint=trending/movie/week");
+      return response.json();
+    },
   });
 };
 
 export const usePopularSeries = () => {
   return useQuery<SeriesResponse, Error>({
     queryKey: ["popular_series"],
-    queryFn: () => fetchApi<SeriesResponse>("trending/tv/week")
-  })
+    queryFn: async () => {      
+      const response = await fetch( "/api?endpoint=trending/tv/week");
+      return response.json();
+    },
+  });
 };
 
 export const useMovieGenre = () => {
   return useQuery<GenresResponse, Error>({
     queryKey: ["movie_genres"],
-    queryFn: () => fetchApi<GenresResponse>("genre/movie/list"),
+    queryFn: async () => {      
+      const response = await fetch( "/api?endpoint=genre/movie/list");
+      return response.json();
+    },
   });
 }
 
 export const useMovieGenreDetails = (id: number) => {   
   return useQuery<MovieResponse, Error>({
     queryKey: ["movie_posters", id],
-    queryFn: () => fetchApi<MovieResponse>(`discover/movie?with_genres=${id}`),
+    queryFn: async () => {      
+      const response = await fetch( `/api?endpoint=discover/movie?with_genres=${id}`);
+      return response.json();
+    },
   });
 };
 
 export const useUpcomingMovies = () => {
   return useQuery<MovieResponse, Error>({
     queryKey: ["upcoming_movies"],
-    queryFn: () =>
-      fetchApi<MovieResponse>(
-        `discover/movie?primary_release_date.gte=2025-01-01&primary_release_date.lte=2030-12-31&with_original_language=en&sort_by=release_date.asc`
-      ),
+    queryFn: async () => {      
+      const response = await fetch( `/api?endpoint=discover/movie?primary_release_date.gte=2025-01-01&primary_release_date.lte=2030-12-31&with_original_language=en&sort_by=release_date.asc`);
+      return response.json();
+    },
   });
 }
 
 export const useUpcomingSeries = () => {
   return useQuery<SeriesResponse, Error>({
     queryKey: ["upcoming_series"],
-    queryFn: () =>
-      fetchApi<SeriesResponse>(
-        `discover/tv?primary_release_date.gte=2025-01-01&primary_release_date.lte=2030-12-31&with_original_language=en&sort_by=first_air_date.desc`,
-      ),
+    queryFn: async () => {      
+      const response = await fetch(        
+        `/api?endpoint=discover/tv?primary_release_date.gte=2025-01-01&primary_release_date.lte=2030-12-31&with_original_language=en&sort_by=first_air_date.desc`,
+      );      
+      return response.json();
+    },    
   });
 };
 
 export const useSeriesGenre = () => {
   return useQuery<GenresResponse, Error>({
     queryKey: ["series_genres"],
-    queryFn: () => fetchApi<GenresResponse>("genre/tv/list"),
+    queryFn: async () => {      
+      const response = await fetch( "/api?endpoint=genre/tv/list");
+      return response.json();
+    },    
   });
 };
 
 export const useSeriesGenreDetails = (id: number) => {
   return useQuery<SeriesResponse, Error>({
     queryKey: ["series_posters", id],
-    queryFn: () => fetchApi<SeriesResponse>(`discover/tv?with_genres=${id}`),
+    queryFn: async () => {      
+      const response = await fetch( `/api?endpoint=discover/movie?with_genres=${id}`);
+      return response.json();
+    },    
   });
 };
 
 export const useMovieDetails =  (id:number) => {
   return useQuery<DetailedMovieResponse, Error>({
     queryKey: ["movie_details", id],
-    queryFn: () => fetchApi<DetailedMovieResponse>(`movie/${id}`)
+    queryFn: async () => {      
+      const response = await fetch( `/api?endpoint=movie/${id}`);
+      return response.json();
+    },    
   })
 };
 
 export const useMovieCastCrew = (id:number) => {
   return useQuery<CastCrewResponse, Error>({
     queryKey: ["cast_crew", id],
-    queryFn: () => fetchApi<CastCrewResponse>(`movie/${id}/credits`),
+    queryFn: async () => {      
+      const response = await fetch( `/api?endpoint=movie/${id}/credits`);
+      return response.json();
+    },
   });
 };
 

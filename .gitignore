@@ -41,4 +41,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.eslintrc.json 
+# ESLint cache
+.eslintcache
+
+# ESLint config 
+.eslintrc.js
+.eslintrc.json
+.eslintrc.yml
+.eslintrc

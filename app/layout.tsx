@@ -24,7 +24,6 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body>
-          <Analytics />
           <Providers>
             <header>
               <SignedOut>
@@ -34,7 +33,10 @@ export default function RootLayout({
                 <UserButton />
               </SignedIn>
             </header>
-            <main>{children}</main>
+            <main>
+              {children}
+              <Analytics />
+            </main>
           </Providers>
         </body>
       </html>

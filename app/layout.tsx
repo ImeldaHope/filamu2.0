@@ -9,6 +9,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Providers from "./providers";
+import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: "Filamu 2.0",
@@ -25,13 +26,8 @@ export default function RootLayout({
       <html lang="en">
         <body>
           <Providers>
-            <header>
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
+            <header>              
+              <Navbar />
             </header>
             <main>
               {children}

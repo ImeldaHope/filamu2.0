@@ -4,6 +4,7 @@ import React from "react";
 import { useNewReleases, useNewReleasesTv } from "@/hooks";
 import MediaCard from "./mediaCard";
 import style from "../app/custom.module.css";
+import { ImageLoader } from "./loaders";
 const NewRelease = ({ type }: { type: "movie" | "series" }) => {
   const movieReleases = useNewReleases();
   const showsReleases = useNewReleasesTv()
@@ -14,7 +15,7 @@ const NewRelease = ({ type }: { type: "movie" | "series" }) => {
   }
 
   if (isLoading) {
-    return <div>Loading ...</div>
+    return <ImageLoader />;
   }
 
   return (

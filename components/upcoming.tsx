@@ -5,6 +5,7 @@ import MediaCard from "./mediaCard";
 import { useUpcomingMovies, useUpcomingSeries } from "@/hooks";
 import style from "../app/custom.module.css";
 import { MovieProps, SeriesProps } from "@/types";
+import { ImageLoader } from "./loaders";
 
 const Upcoming = ({ type }: { type: "movie" | "series" }) => {
   const upcomingMovies = useUpcomingMovies()
@@ -13,9 +14,9 @@ const Upcoming = ({ type }: { type: "movie" | "series" }) => {
   const { data, isLoading, error } =
     type === "movie" ? upcomingMovies : upcomingShows;
   
-   if (isLoading) {
-     return <div>Loading ...</div>;
-   }
+    if (isLoading) {
+      return <ImageLoader />;
+    }
 
    if (error) {
      return <div>Error</div>;

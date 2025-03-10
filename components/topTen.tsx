@@ -3,6 +3,7 @@ import React from "react";
 import MediaCard from "./mediaCard";
 import { usePopularMovies, usePopularSeries } from "@/hooks";
 import style from "../app/custom.module.css";
+import { SkeletonLoader } from "./loaders";
 
 const TopTen = ({ type }: { type: "movie" | "series" }) => {
   const popularMovies = usePopularMovies()
@@ -12,7 +13,7 @@ const TopTen = ({ type }: { type: "movie" | "series" }) => {
     type === "movie" ? popularMovies : popularSeries;
 
   if (isLoading) {
-    return <div>Loading ...</div>
+    return <SkeletonLoader/>
   }
 
   if (error) return <div>Error</div>

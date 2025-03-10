@@ -3,6 +3,7 @@ import React from "react";
 import GenreBtn from "./genreBtn";
 import { useMovieGenre, useSeriesGenre } from "@/hooks";
 import style from "../app/custom.module.css";
+import { LoadingGenres } from "./loaders";
 const GenreCard = ({ type }: { type: "movie" | "series" }) => {
 
   const movieGenre = useMovieGenre();
@@ -11,7 +12,7 @@ const GenreCard = ({ type }: { type: "movie" | "series" }) => {
   const { data, isLoading, error } =
     type === "movie" ? movieGenre : seriesGenre;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingGenres />;
   if (error) return <div>Error</div>;
 
   return (

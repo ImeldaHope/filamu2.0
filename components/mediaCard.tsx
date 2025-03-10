@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ImageLoader } from "./loaders";
 
 const MediaCard = ({ poster_path, movie_id, series_id }: { poster_path: string, movie_id?:number, series_id?:number }) => {
    const router = useRouter();
@@ -11,7 +12,9 @@ const MediaCard = ({ poster_path, movie_id, series_id }: { poster_path: string, 
      if (media_id) {
       router.push(`/${type}/${media_id}`);
     } 
-   };
+  };
+  
+  if (!poster_path) return <ImageLoader/>;
   
   return (
     <div className="w-20 h-32 lg:h-60 lg:w-40 m-5" onClick={handleClick}>

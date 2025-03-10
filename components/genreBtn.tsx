@@ -17,7 +17,7 @@ const GenreBtn = ({
   const { data, isLoading, error } =
     type === "movie" ? movieGenre : seriesGenre;
   
-  if (isLoading) return <div>Loading...</div>;
+  // if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error</div>;
 
 
@@ -31,7 +31,7 @@ const GenreBtn = ({
               src={`https://image.tmdb.org/t/p/w500${media.poster_path}`}
               height={100}
               width={70}
-              alt=""
+              alt={'title' in media ? media.title : media.name}
               className="rounded-md"
               key={media.id}
             />

@@ -14,10 +14,9 @@ const GenreBtn = ({
   const movieGenre = useMovieGenreDetails(genre.id);
   const seriesGenre = useSeriesGenreDetails(genre.id);
 
-  const { data, isLoading, error } =
+  const { data, error } =
     type === "movie" ? movieGenre : seriesGenre;
-  
-  // if (isLoading) return <div>Loading...</div>;
+    
   if (error) return <div>Error</div>;
 
 

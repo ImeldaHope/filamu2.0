@@ -1,12 +1,7 @@
 import type { NextConfig } from "next";
-import withPlaiceholder from "@plaiceholder/next";
-
-/**
- * @type {import('next').NextConfig}
- */
 
 const nextConfig: NextConfig = {
-  images: {    
+  images: {
     remotePatterns: [
       {
         protocol: "https",
@@ -20,4 +15,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withPlaiceholder(nextConfig);
+export default nextConfig;

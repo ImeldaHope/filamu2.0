@@ -43,3 +43,6 @@ next-env.d.ts
 
 # clerk configuration (can include secrets)
 /.clerk/
+
+# local-only pnpm 11 settings (build-script approvals); breaks Vercel pnpm 9
+pnpm-workspace.yaml

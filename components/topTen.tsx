@@ -1,54 +1,51 @@
 "use client";
 import React from "react";
 import MediaCard from "./mediaCard";
+import ShelfHeader from "./shelfHeader";
 import { usePopularMovies, usePopularSeries } from "@/hooks";
 import style from "../app/custom.module.css";
-import { SkeletonLoader } from "./loaders";
+import { SkeletonLoader, ShelfFallback } from "./loaders";
 
 const TopTen = ({ type }: { type: "movie" | "series" }) => {
-  const popularMovies = usePopularMovies()
-  const popularSeries = usePopularSeries()
+  const popularMovies = usePopularMovies();
+  const popularSeries = usePopularSeries();
 
   const { data, isLoading, error } =
     type === "movie" ? popularMovies : popularSeries;
 
   if (isLoading) {
-    return <SkeletonLoader/>
+    return <SkeletonLoader />;
   }
 
-  if (error) return <div>Error</div>
-  
+  const items = data?.results.slice(0, 10) ?? [];
+
   return (
     <div className="m-8">
-      <h1 className="mb-2 text-xl font-black lg:text-2xl">
-        Top 10{" "}
-        <span className="text-md font-light">
-          in {type === "movie" ? "Movies" : "TV Shows"}
-        </span>{" "}
-        this Week
-      </h1>
-      <div className={`flex gap-16 overflow-x-scroll ${style.scrollbar_hide} overflow-y-hidden`}>
-        {data?.results.slice(0, 10).map((media, index) => (
-          <div key={media.id} className="relative m-3 flex items-center p-2">
-            <div className="z-10">
-              {type === "movie" ? (
-                <MediaCard
-                  poster_path={media.poster_path}
-                  movie_id={media.id}
-                />
-              ) : (
-                <MediaCard
-                  poster_path={media.poster_path}
-                  series_id={media.id}
-                />
-              )}
+      <ShelfHeader channel="CH 03" title="Most Rented · Top 10" type={type} />
+      {error ? (
+        <ShelfFallback variant="error" message="The rental chart didn't come back. Try again shortly." />
+      ) : items.length === 0 ? (
+        <ShelfFallback message="No rentals counted this week — the chart is fresh." />
+      ) : (
+        <div
+          className={`flex gap-16 overflow-x-scroll ${style.scrollbar_hide} overflow-y-hidden pl-14`}
+        >
+          {items.map((media, index) => (
+            <div key={media.id} className="relative m-3 flex shrink-0 items-center p-2">
+              <div className="z-10">
+                {type === "movie" ? (
+                  <MediaCard poster_path={media.poster_path} movie_id={media.id} />
+                ) : (
+                  <MediaCard poster_path={media.poster_path} series_id={media.id} />
+                )}
+              </div>
+              <span className="channel-number absolute -left-16 top-1/2 -translate-y-1/2 select-none text-11xl leading-none">
+                {index + 1}
+              </span>
             </div>
-            <h1 className="absolute -left-16 top-1/2 -translate-y-1/2 text-11xl">
-              {index + 1}
-            </h1>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

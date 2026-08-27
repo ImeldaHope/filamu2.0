@@ -2,25 +2,22 @@
 
 import React from "react";
 import MediaCard from "./mediaCard";
+import ShelfHeader from "./shelfHeader";
 import { useUpcomingMovies, useUpcomingSeries } from "@/hooks";
 import style from "../app/custom.module.css";
 import { MovieProps, SeriesProps } from "@/types";
-import { ImageLoader } from "./loaders";
+import { ImageLoader, ShelfFallback } from "./loaders";
 
 const Upcoming = ({ type }: { type: "movie" | "series" }) => {
-  const upcomingMovies = useUpcomingMovies()
-  const upcomingShows = useUpcomingSeries()
+  const upcomingMovies = useUpcomingMovies();
+  const upcomingShows = useUpcomingSeries();
 
   const { data, isLoading, error } =
     type === "movie" ? upcomingMovies : upcomingShows;
-  
-    if (isLoading) {
-      return <ImageLoader />;
-    }
 
-   if (error) {
-     return <div>Error</div>;
-   }
+  if (isLoading) {
+    return <ImageLoader />;
+  }
 
   const sortedMedia = data?.results.sort((a, b) => {
     const dateA = new Date(
@@ -59,34 +56,29 @@ const Upcoming = ({ type }: { type: "movie" | "series" }) => {
     });
   };
 
+  const list = filteredMedia?.slice(0, 10) ?? [];
+
   return (
     <div className="m-8">
-      <h1 className="mb-2 text-xl font-black lg:text-2xl">
-        Coming soon{" "}
-        <span className="text-md font-light">
-          in {type === "movie" ? "Movies" : "TV Shows"}
-        </span>
-      </h1>
-      <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
-        {filteredMedia?.slice(0, 10).map((media) => (
-          <div
-            key={media.id}
-            className="relative flex flex-col items-center p-2"
-          >
-            {/* <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-red-800 to-transparent"></div> */}
-            <MediaCard poster_path={media.poster_path} movie_id={media.id} />
-            {type === "movie" ? (
-              <span className="text-md absolute bottom-5 cursor-pointer rounded-md bg-black/50 p-1 font-semibold text-white shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
-                {date((media as MovieProps).release_date)}
+      <ShelfHeader channel="CH 04" title="Coming Soon · Reserve" type={type} accent="magenta" />
+      {error ? (
+        <ShelfFallback variant="error" message="Couldn't pull the release calendar. Try again shortly." />
+      ) : list.length === 0 ? (
+        <ShelfFallback message="Nothing scheduled yet — the reserve list is clear for now." />
+      ) : (
+        <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
+          {list.map((media) => (
+            <div key={media.id} className="relative flex shrink-0 flex-col items-center p-2">
+              <MediaCard poster_path={media.poster_path} movie_id={media.id} />
+              <span className="sticker absolute bottom-4 z-10 rounded-sm bg-crt-800/90 px-2 py-1 text-xs text-magenta">
+                {type === "movie"
+                  ? date((media as MovieProps).release_date)
+                  : date((media as SeriesProps).first_air_date)}
               </span>
-            ) : (
-              <span className="text-md absolute bottom-5 cursor-pointer rounded-md bg-black/50 p-1 font-semibold text-white shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
-                {date((media as SeriesProps).first_air_date)}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
 import GenreBtn from "./genreBtn";
+import ShelfHeader from "./shelfHeader";
 import { useMovieGenre, useSeriesGenre } from "@/hooks";
 import style from "../app/custom.module.css";
-import { LoadingGenres } from "./loaders";
-const GenreCard = ({ type }: { type: "movie" | "series" }) => {
+import { LoadingGenres, ShelfFallback } from "./loaders";
 
+const GenreCard = ({ type }: { type: "movie" | "series" }) => {
   const movieGenre = useMovieGenre();
   const seriesGenre = useSeriesGenre();
 
@@ -13,23 +14,23 @@ const GenreCard = ({ type }: { type: "movie" | "series" }) => {
     type === "movie" ? movieGenre : seriesGenre;
 
   if (isLoading) return <LoadingGenres />;
-  if (error) return <div>Error</div>;
+
+  const genres = data?.genres.slice(0, 8) ?? [];
 
   return (
     <div className="m-8">
-      <h1 className="mb-2 text-xl font-black lg:text-2xl">
-        Popular Genres{" "}
-        <span className="text-md font-light">
-          in {type === "movie" ? "Movies" : "TV Shows"}
-        </span>
-      </h1>
-      <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
-        {data?.genres
-          .slice(0, 8)
-          .map((genre) => (
+      <ShelfHeader channel="CH 01" title="Browse by Aisle" type={type} />
+      {error ? (
+        <ShelfFallback variant="error" message="Couldn't load the aisles right now." />
+      ) : genres.length === 0 ? (
+        <ShelfFallback message="No aisles stocked for this section yet." />
+      ) : (
+        <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
+          {genres.map((genre) => (
             <GenreBtn genre={genre} key={genre.id} type={type} />
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

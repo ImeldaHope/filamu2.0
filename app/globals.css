@@ -3,20 +3,127 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --crt: #0e1414;
+  --crt-800: #0a0f0f;
+  --crt-700: #15201f;
+  --crt-600: #1e2c2a;
+  --phosphor: #2fe6c4;
+  --magenta: #ff4fa3;
+  --cream: #ede9de;
+  --amber: #ffb020;
+  --muted: #7c918d;
+
+  --background: var(--crt);
+  --foreground: var(--cream);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    color: var(--foreground);
+    background-color: var(--background);
+    font-family: var(--font-body), "Hanken Grotesk", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Phosphor keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid var(--phosphor);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--magenta);
+    color: var(--crt-800);
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* CRT scanlines: fine horizontal lines like a tube TV. Static (no flicker). */
+  .scanlines {
+    position: relative;
+  }
+  .scanlines::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(0, 0, 0, 0.28) 3px,
+      rgba(0, 0, 0, 0.28) 4px
+    );
+    mix-blend-mode: multiply;
+    z-index: 5;
+  }
+
+  /* Analog film grain via SVG noise, held very low so it reads as texture. */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    z-index: 4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* A rented-tape sticker: chunky border, faint drop, sits at a jaunty angle. */
+  .sticker {
+    font-family: var(--font-mono), "VT323", ui-monospace, monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1.5px solid currentColor;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.55);
+    line-height: 1;
+  }
+
+  /* CRT channel numerals: hollow phosphor outline for the Top-10 ranks. */
+  .channel-number {
+    font-family: var(--font-display), "Archivo Black", system-ui, sans-serif;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--phosphor);
+    text-shadow: 0 0 22px rgba(47, 230, 196, 0.35);
+  }
 }
 
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display), "Archivo Black", system-ui, sans-serif;
+  }
+  .font-mono-crt {
+    font-family: var(--font-mono), "VT323", ui-monospace, monospace;
+  }
+  .text-glow {
+    text-shadow: 0 0 12px rgba(47, 230, 196, 0.55);
+  }
+
+  /* Steady red record dot — blink only when motion is welcome. */
+  .rec-dot {
+    animation: rec-blink 1.4s steps(1, end) infinite;
+  }
+  @keyframes rec-blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    50.01%,
+    100% {
+      opacity: 0.15;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rec-dot {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

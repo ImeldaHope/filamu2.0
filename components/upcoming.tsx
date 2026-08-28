@@ -69,7 +69,11 @@ const Upcoming = ({ type }: { type: "movie" | "series" }) => {
         <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
           {list.map((media) => (
             <div key={media.id} className="relative flex shrink-0 flex-col items-center p-2">
-              <MediaCard poster_path={media.poster_path} movie_id={media.id} />
+              {type === "movie" ? (
+                <MediaCard poster_path={media.poster_path} movie_id={media.id} />
+              ) : (
+                <MediaCard poster_path={media.poster_path} series_id={media.id} />
+              )}
               <span className="sticker absolute bottom-4 z-10 rounded-sm bg-crt-800/90 px-2 py-1 text-xs text-magenta">
                 {type === "movie"
                   ? date((media as MovieProps).release_date)

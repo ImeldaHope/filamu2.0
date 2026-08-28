@@ -30,7 +30,11 @@ const NewRelease = ({ type }: { type: "movie" | "series" }) => {
         <div className={`flex gap-5 overflow-x-scroll ${style.scrollbar_hide}`}>
           {items.map((media) => (
             <div key={media.id} className="relative shrink-0">
-              <MediaCard poster_path={media.poster_path} movie_id={media.id} />
+              {type === "movie" ? (
+                <MediaCard poster_path={media.poster_path} movie_id={media.id} />
+              ) : (
+                <MediaCard poster_path={media.poster_path} series_id={media.id} />
+              )}
               <p className="sticker absolute right-1 top-1 z-10 rounded-sm bg-amber px-1.5 py-1 text-sm text-crt-800">
                 {Math.round(media.vote_average)}★
               </p>

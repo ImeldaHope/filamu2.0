@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { GenreProps } from "@/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

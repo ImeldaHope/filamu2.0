@@ -18,8 +18,15 @@ const fetchJson = async <T>(endpoint: string): Promise<T> => {
   return response.json();
 };
 
-// Today as YYYY-MM-DD, used to anchor "upcoming" queries to real future dates.
-const today = () => new Date().toISOString().split("T")[0];
+// First day of next month as YYYY-MM-DD. "Upcoming" means strictly beyond the
+// current month, so we anchor discover queries here (built from local date
+// parts to avoid a UTC off-by-one).
+const firstOfNextMonth = () => {
+  const now = new Date();
+  const d = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  return `${d.getFullYear()}-${month}-01`;
+};
 
 export const useNewReleases = () => {
   return useQuery<MovieResponse, Error>({
@@ -69,7 +76,7 @@ export const useUpcomingMovies = () => {
     queryKey: ["upcoming_movies"],
     queryFn: () =>
       fetchJson<MovieResponse>(
-        `discover/movie?primary_release_date.gte=${today()}&with_original_language=en&sort_by=primary_release_date.asc`,
+        `discover/movie?primary_release_date.gte=${firstOfNextMonth()}&with_original_language=en&sort_by=popularity.desc`,
       ),
   });
 };
@@ -79,7 +86,7 @@ export const useUpcomingSeries = () => {
     queryKey: ["upcoming_series"],
     queryFn: () =>
       fetchJson<SeriesResponse>(
-        `discover/tv?first_air_date.gte=${today()}&with_original_language=en&sort_by=first_air_date.asc`,
+        `discover/tv?first_air_date.gte=${firstOfNextMonth()}&with_original_language=en&sort_by=popularity.desc`,
       ),
   });
 };

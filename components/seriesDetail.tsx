@@ -18,6 +18,8 @@ import {
   useSeriesDetails,
   useSeasonDetails,
 } from "@/hooks";
+import PersonAvatar from "./personAvatar";
+import style from "../app/custom.module.css";
 
 const Panel = ({ children }: { children: React.ReactNode }) => (
   <div className="m-5 rounded-sm border-2 border-crt-600 bg-crt-700 p-6 md:p-10">
@@ -148,25 +150,30 @@ const SeriesDetail = ({ seriesId }: { seriesId: number }) => {
 
           {/* Seasons + episodes */}
           <Panel>
-            <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+            <div className="mb-3 flex items-center justify-between gap-3">
               <h3 className="font-display text-xl uppercase text-phosphor">
                 Seasons &amp; Episodes
               </h3>
-              <div className="flex flex-wrap gap-2">
-                {seasons.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => setActiveSeason(s.season_number)}
-                    className={`sticker rounded-sm px-3 py-1.5 font-crt text-base uppercase transition-colors ${
-                      s.season_number === selectedSeason
-                        ? "bg-phosphor text-crt-800"
-                        : "bg-crt-800 text-cream hover:text-phosphor"
-                    }`}
-                  >
-                    S{s.season_number}
-                  </button>
-                ))}
-              </div>
+              <span className="shrink-0 font-crt text-sm uppercase text-muted">
+                {seasons.length} season{seasons.length === 1 ? "" : "s"}
+              </span>
+            </div>
+            <div
+              className={`mb-5 flex gap-2 overflow-x-auto pb-2 ${style.scrollbar_hide}`}
+            >
+              {seasons.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => setActiveSeason(s.season_number)}
+                  className={`sticker shrink-0 whitespace-nowrap rounded-sm px-3 py-1.5 font-crt text-base uppercase transition-colors ${
+                    s.season_number === selectedSeason
+                      ? "bg-phosphor text-crt-800"
+                      : "bg-crt-800 text-cream hover:text-phosphor"
+                  }`}
+                >
+                  S{s.season_number}
+                </button>
+              ))}
             </div>
 
             {seasonLoading ? (
@@ -230,28 +237,32 @@ const SeriesDetail = ({ seriesId }: { seriesId: number }) => {
             </h3>
             {castCrew?.cast && castCrew.cast.length > 0 ? (
               <div className="flex flex-wrap justify-center gap-5">
-                {castCrew.cast.slice(0, 10).map((cast) =>
-                  cast.profile_path ? (
-                    <div key={cast.id} className="flex flex-col items-center">
-                      <div className="relative mb-3 h-40 w-40 overflow-hidden rounded-full border-2 border-crt-600">
-                        <Image
-                          src={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
-                          alt={cast.name}
-                          fill
-                          sizes="160px"
-                          className="object-cover"
-                        />
-                      </div>
-                      <p className="text-center text-sm text-cream">
-                        {cast.name}
-                        <br />
-                        <span className="font-crt text-base text-muted">as</span>
-                        <br />
-                        <span className="text-phosphor">{cast.character}</span>
-                      </p>
-                    </div>
-                  ) : null,
-                )}
+                {castCrew.cast.slice(0, 12).map((cast) => (
+                  <div
+                    key={cast.id}
+                    className="flex w-32 flex-col items-center"
+                  >
+                    <PersonAvatar
+                      name={cast.name}
+                      path={cast.profile_path}
+                      className="mb-3 h-32 w-32"
+                      textClass="text-4xl"
+                    />
+                    <p className="text-center text-sm text-cream">
+                      {cast.name}
+                      {cast.character ? (
+                        <>
+                          <br />
+                          <span className="font-crt text-base text-muted">
+                            as
+                          </span>
+                          <br />
+                          <span className="text-phosphor">{cast.character}</span>
+                        </>
+                      ) : null}
+                    </p>
+                  </div>
+                ))}
               </div>
             ) : (
               <p className="font-crt text-lg text-muted">

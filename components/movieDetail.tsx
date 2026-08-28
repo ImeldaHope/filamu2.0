@@ -15,6 +15,7 @@ import {
   ThickArrowLeftIcon,
 } from "@radix-ui/react-icons";
 import { Crew } from "@/types";
+import PersonAvatar from "./personAvatar";
 
 export const Rating = ({ rate }: { rate: number }) => {
   const filledStars = Math.floor(rate);
@@ -61,6 +62,7 @@ const MovieDetail = ({ movieId }: { movieId: number }) => {
   const { data: castCrew, isLoading } = useMovieCastCrew(movieId);
 
   const router = useRouter();
+  const [showAllCrew, setShowAllCrew] = React.useState(false);
 
   if (error) {
     return (
@@ -171,28 +173,27 @@ const MovieDetail = ({ movieId }: { movieId: number }) => {
               Cast
             </h3>
             <div className="flex flex-wrap justify-center gap-5">
-              {castCrew?.cast.slice(0, 10).map((cast) =>
-                cast.profile_path ? (
-                  <div key={cast.id} className="flex flex-col items-center">
-                    <div className="relative mb-3 h-40 w-40 overflow-hidden rounded-full border-2 border-crt-600">
-                      <Image
-                        src={`https://image.tmdb.org/t/p/w500${cast.profile_path}`}
-                        alt={cast.name}
-                        fill
-                        sizes="160px"
-                        className="object-cover"
-                      />
-                    </div>
-                    <p className="text-center text-sm text-cream">
-                      {cast.name}
-                      <br />
-                      <span className="font-crt text-base text-muted">as</span>
-                      <br />
-                      <span className="text-phosphor">{cast.character}</span>
-                    </p>
-                  </div>
-                ) : null,
-              )}
+              {castCrew?.cast.slice(0, 12).map((cast) => (
+                <div key={cast.id} className="flex w-32 flex-col items-center">
+                  <PersonAvatar
+                    name={cast.name}
+                    path={cast.profile_path}
+                    className="mb-3 h-32 w-32"
+                    textClass="text-4xl"
+                  />
+                  <p className="text-center text-sm text-cream">
+                    {cast.name}
+                    {cast.character ? (
+                      <>
+                        <br />
+                        <span className="font-crt text-base text-muted">as</span>
+                        <br />
+                        <span className="text-phosphor">{cast.character}</span>
+                      </>
+                    ) : null}
+                  </p>
+                </div>
+              ))}
             </div>
           </Panel>
 
@@ -276,43 +277,51 @@ const MovieDetail = ({ movieId }: { movieId: number }) => {
           </div>
 
           <div className="mt-4">
-            {crews.map(({ department, crewMembers }, idx) => (
-              <div key={idx} className="my-4">
-                <h2 className="mb-2 font-crt text-lg uppercase text-muted">
-                  {department}
-                </h2>
-                <div className="flex flex-col gap-3">
-                  {crewMembers.slice(0, 3).map((crew, cidx) => (
-                    <div
-                      key={cidx}
-                      className="flex h-24 w-full items-center gap-4 rounded-sm border border-crt-600 bg-crt-800 p-3"
-                    >
-                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-sm">
-                        {crew.profile_path ? (
-                          <Image
-                            src={`https://image.tmdb.org/t/p/w500${crew.profile_path}`}
-                            fill
-                            sizes="64px"
-                            className="object-cover"
-                            alt={crew.name}
-                          />
-                        ) : (
-                          <div className="h-full w-full bg-crt-600" />
-                        )}
+            <h2 className="mb-2 font-crt text-lg uppercase text-muted">Crew</h2>
+            {(showAllCrew ? crews : crews.slice(0, 2)).map(
+              ({ department, crewMembers }, idx) => (
+                <div key={idx} className="my-4">
+                  <h3 className="mb-2 font-crt text-base uppercase text-phosphor">
+                    {department}
+                  </h3>
+                  <div className="flex flex-col gap-3">
+                    {crewMembers.slice(0, 3).map((crew, cidx) => (
+                      <div
+                        key={cidx}
+                        className="flex h-24 w-full items-center gap-4 rounded-sm border border-crt-600 bg-crt-800 p-3"
+                      >
+                        <PersonAvatar
+                          name={crew.name}
+                          path={crew.profile_path}
+                          shape="square"
+                          className="h-16 w-16 shrink-0"
+                          textClass="text-lg"
+                          sizes="64px"
+                        />
+                        <div>
+                          <h4 className="text-base font-medium text-cream">
+                            {crew.name}
+                          </h4>
+                          <p className="font-crt text-base text-phosphor">
+                            {crew.job}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h2 className="text-base font-medium text-cream">
-                          {crew.name}
-                        </h2>
-                        <p className="font-crt text-base text-phosphor">
-                          {crew.job}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ),
+            )}
+            {crews.length > 2 ? (
+              <button
+                onClick={() => setShowAllCrew((v) => !v)}
+                className="sticker mt-2 inline-flex w-full items-center justify-center rounded-sm bg-crt-800 px-4 py-2 font-crt text-base uppercase text-phosphor transition-colors hover:bg-crt-600"
+              >
+                {showAllCrew
+                  ? "− Show less"
+                  : `+ Show all crew (${crews.length} depts)`}
+              </button>
+            ) : null}
           </div>
         </div>
       </div>

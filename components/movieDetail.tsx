@@ -62,15 +62,15 @@ const MovieDetail = ({ movieId }: { movieId: number }) => {
 
   const router = useRouter();
 
-  if (!movie || loading) {
-    return (
-      <p className="m-8 font-crt text-xl text-phosphor">▶ Cueing up the tape…</p>
-    );
-  }
-
   if (error) {
     return (
       <p className="m-8 font-crt text-xl text-magenta">✗ Movie data not available.</p>
+    );
+  }
+
+  if (!movie || loading) {
+    return (
+      <p className="m-8 font-crt text-xl text-phosphor">▶ Cueing up the tape…</p>
     );
   }
 
